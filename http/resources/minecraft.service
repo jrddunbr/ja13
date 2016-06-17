@@ -1,0 +1,21 @@
+[Unit]
+Description=Minecraft Server
+
+[Service]
+WorkingDirectory=/software/serv
+User=mcserver
+
+ExecStart=/bin/sh /software/serv/run.sh &
+
+ExecStop=/usr/bin/pkill java
+
+[Install]
+WantedBy=multi-user.target
+
+#########
+# HowTo
+#########
+# 
+# Enable/Start systemd service
+#    systemctl enable minecraft
+#    systemctl start minecraft

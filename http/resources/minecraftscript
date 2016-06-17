@@ -1,0 +1,12 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides: minecraft
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Required-Start: $network
+# Required-Stop:
+# Short-Description: Minecraft Server
+### END INIT INFO
+
+cd /software
+bash bukkit.sh &
