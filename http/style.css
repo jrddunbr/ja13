@@ -1,11 +1,12 @@
 html {
-  background:    
-    linear-gradient(
-       rgba(0,0,0,0.8),
-       rgba(0,0,0,0.8)),
-    url("back.png");
-    color: white;
-    font-family: "Lucida Console", Monaco, monospace;
+  background:
+  linear-gradient(
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.8)
+  ),
+  url("back.png");
+  color: white;
+  font-family: "Lucida Console", Monaco, monospace;
 }
 
 h1 {
