@@ -1,6 +1,6 @@
-http://ja13.tk
-http://pgp.ja13.tk
-http://map.ja13.tk
-http://wiki.ja13.tk
-http://docs.ja13.tk
-http://stats.ja13.tk
+http://ja13.org
+http://pgp.ja13.org
+http://map.ja13.org
+http://wiki.ja13.org
+http://docs.ja13.org
+http://stats.ja13.org
