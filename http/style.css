@@ -1,8 +1,8 @@
 html {
   background:
   linear-gradient(
-    rgba(0,0,0,0.9),
-    rgba(0,0,0,0.9)
+    rgba(0,0,0,0.85),
+    rgba(0,0,0,0.85)
   ),
   url("back.png");
   color: white;
