@@ -1,0 +1,21 @@
+html {
+  background: #ffccff;
+  color: white;
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+h1 {
+    font-variant: small-caps;
+}
+
+.header {
+    text-align: center;
+}
+
+a, a.visited {
+    color: #afafff;
+}
+
+.content {
+    margin-left: 5%;
+}
