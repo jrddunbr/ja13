@@ -19,3 +19,20 @@ a, a.visited {
 .content {
     margin-left: 5%;
 }
+
+#nav {
+    margin-left: 15%;
+}
+#nav > li {
+    display: inline-block;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5px;
+    font-size: 20px;
+    font-variant: small-caps;
+}
+
+#nav > li > a {
+    text-decoration: none;
+    font-weight: bold;
+}
