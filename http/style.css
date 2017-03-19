@@ -1,5 +1,5 @@
 html {
-  background: url("back.png");
+  background: url("back.png"), #000000;
   background-size: 1920px 1080px;
   background-repeat: no-repeat;
   color: white;
