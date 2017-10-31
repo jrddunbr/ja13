@@ -1,21 +1,50 @@
 [Unit]
-Description=Minecraft Server
+Description=<server name>
 
 [Service]
-WorkingDirectory=/software/serv
-User=mcserver
+# This sets the directory that the server runs in. Slightly important
+WorkingDirectory=/servers/<server name>
 
-ExecStart=/bin/sh /software/serv/run.sh &
+# This is the username we would like to run as
+User=gmx
 
-ExecStop=/usr/bin/pkill java
+# These are the commands to sart the server
+ExecStart=/usr/bin/screen -DmS <server name> /usr/bin/java -jar -Xmx2G -Xmn1G <filename>.jar
+
+
+# These are the commands to stop the server. Not really necessary, systemd will send CTL-C
+ExecStop=/usr/bin/screen -p 0 -S <server name> -X eval 'stuff "say SERVER SHUTTING DOWN. Saving map..."\\015'
+ExecStop=/usr/bin/screen -p 0 -S <server name> -X eval 'stuff "save-all"\\015'
+ExecStop=/usr/bin/screen -p 0 -S <server name> -X eval 'stuff "stop"\\015'
+ExecStop=/bin/sleep 2
 
 [Install]
 WantedBy=multi-user.target
 
 #########
-# HowTo
+# USAGE #
 #########
-# 
-# Enable/Start systemd service
-#    systemctl enable minecraft
-#    systemctl start minecraft
+
+# NOTE - the service name should be the same as the filename!
+
+# Start the service
+# systemctl start <service name>.service
+
+# Stop the service
+# systemctl stop <service name>.service
+
+# Restart the service
+# systemctl restart <service name.service
+
+# Enable the service starting automatically on system boot
+# systemctl enable <service name>.service
+
+# Disable the service starting automatically on system boot
+# systemctl disable <service name>.service
+
+# After editing this file, be sure to do a reload of the configuration
+# systemctl daemon-reload
+
+
+# I can't claim credit for all of the script, but generally I configured a
+# mostly working script to work in my environment.

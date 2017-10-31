@@ -1,6 +1,1 @@
 http://ja13.org
-http://pgp.ja13.org
-http://map.ja13.org
-http://wiki.ja13.org
-http://docs.ja13.org
-http://stats.ja13.org
