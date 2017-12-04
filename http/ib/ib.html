@@ -1,0 +1,444 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IB</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><h2 id="installation-instructions-for-setting-up-infiniband-on-fedora-26">Installation Instructions for setting up InfiniBand on Fedora 26</h2>
+
+<p><strong>NOTE and Disclaimer</strong> - While these instructions are specific in parts, they will not help with debugging issues you may encounter. It may seem beginner ready, but this does require a good bit of Linux knowledge or a lot of debugging skills (including the all-helpful Google open on another computer) to get things going. I do not provide much in the way of troubleshooting help, where I would expect some general Linux knowledge to have the answer.</p>
+
+<p>I do not take responsibility for the issues you may encounter, or if you completely wipe your system while using <code>dd</code>, for example.</p>
+
+
+
+<h3 id="step-1-install-fedora-26">Step 1: Install Fedora 26</h3>
+
+
+
+<h4 id="download-the-iso">Download the Iso</h4>
+
+<p>I fetched Fedora from <a href="http://mirror.clarkson.edu">http://mirror.clarkson.edu</a> and went to the Distributions page, and selected <a href="http://mirror.clarkson.edu/fedora/linux/releases/">Fedora Iso’s</a></p>
+
+<p>Once there, I clicked on <code>26</code>, and then <code>Everything</code> and then <code>x86_64</code> and then <code>iso</code>. (<a href="http://mirror.clarkson.edu/fedora/linux/releases/26/Everything/x86_64/iso">Link to folder</a>)</p>
+
+<p>I downloaded the iso file onto my computer (which is running Linux) and then ran <code>sync</code> to make sure that the file was actually on my computer, and not just in RAM. (This is not strictly necessary).</p>
+
+
+
+<h4 id="dd-the-iso-to-a-flash-drive">DD the iso to a flash drive</h4>
+
+<p>I then copied the installation media onto my flash drive using the <code>dd</code> program.</p>
+
+<p>This is a very specific instruction, you <em>cannot</em> just copy the iso file to a flash drive in Windows. You must use <code>dd</code> or a similar program to extract the iso onto the disk properly.</p>
+
+<p>To do this, I ran the following commands:</p>
+
+<p><code>lsblk</code> - This program will tell you the partition layout and block devices available to the system. Generally, look for the device you want by its size (ex, <code>/dev/sdb</code>) and then if necessary, unplug and replug to make sure you have the correct device.</p>
+
+<p>I then use <code>dd</code> to write the file to the drive. The command looks as below:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ruby">dd <span class="hljs-keyword">if</span>=fedora.iso of=<span class="hljs-regexp">/dev/sdb</span> bs=<span class="hljs-number">4</span>M</code></pre>
+
+<p><code>dd</code> is the command, <code>if=&lt;path to iso&gt;</code> is the path to the iso file on your local system, and <code>of=/dev/sdb</code> is the path to the file. <code>bs=4M</code> changes the size to copy per iteration, and generally the file will copy fastest at around 4M, but sometimes lower. Depends on your hardware. Bigger (or smaller) does not necessarily regulate how fast it is.</p>
+
+<p><strong>WARNING</strong> - <code>dd</code> can directly overwrite your operating system! Be sure you are doing it to the right filesystem, or you could wipe out your running operating system, or other documents. This is completely irrecoverable, even with special software!</p>
+
+<p>Once the <code>dd</code> program has finished, you want to run <code>sync</code> again. This will force all of the changes to be applied to the flash drive. After you run this, it is safe to remove the flash drive.</p>
+
+
+
+<h4 id="booting-the-system">Booting the system</h4>
+
+<p><strong>NOTE</strong> - This was hardware specific. You may have to do something different.</p>
+
+<p>On the servers in the lab, you press <kbd>F2</kbd> for Setup, <kbd>F6</kbd> for Boot Menu, and <kbd>F12</kbd> for PXE network boot.</p>
+
+<p><strong>NOTE</strong> - End hardware specific zone</p>
+
+<p>You may need to enter the BIOS to change the boot order. Once you do that, you need to boot from your bootable flash drive on the system.</p>
+
+
+
+<h4 id="installer">Installer</h4>
+
+<p>From here on, I will call the primary disk <code>/dev/sda</code></p>
+
+<p>Once the bootable drive has booted, you will see the installer. Just flow through the instructions. I generally start by configuring the disk partitions. I always use the advanded partitioner in basic partition mode (not LVM or BTRFS, etc), which is good for drives up to 2TB. Beyond that, you may need to use UEFI, which requires a special 100MiB partition at the beginning of the disk, which has the /boot folder in it.</p>
+
+<p>Here’s a general layout:</p>
+
+
+
+<h5 id="for-mbr-based-installs">For MBR based installs:</h5>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">/dev/sda
+|- /dev/sda1 - ext4 primary partition <span class="hljs-operator">with</span> &gt;<span class="hljs-number">8</span>GB <span class="hljs-operator">of</span> <span class="hljs-constant">space</span>, mounted <span class="hljs-keyword">as</span> /
+\- /dev/sda2 - swap primary partition <span class="hljs-operator">with</span> ~<span class="hljs-number">8</span>GB <span class="hljs-operator">of</span> <span class="hljs-constant">space</span>. (Optional)</code></pre>
+
+
+
+<h5 id="for-uefi-based-installs">For UEFI based installs:</h5>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">/dev/sda
+|- /dev/sda1 - FAT16/FAT32 primary partition <span class="hljs-operator">with</span> <span class="hljs-number">100</span>MiB <span class="hljs-operator">of</span> <span class="hljs-constant">space</span>, mounted <span class="hljs-keyword">as</span> /boot
+|- /dev/sda2 - ext4 primary partition <span class="hljs-operator">with</span> &gt;<span class="hljs-number">8</span>GB <span class="hljs-operator">of</span> <span class="hljs-constant">space</span>, mounted <span class="hljs-keyword">as</span> /
+\- /dev/sda3 - swap primary partition <span class="hljs-operator">with</span> ~<span class="hljs-number">8</span>GB <span class="hljs-operator">of</span> <span class="hljs-constant">space</span>. (Optional)</code></pre>
+
+<p>Depending upon whether you have enough RAM for the task at hand, you may want to have swap available. Don’t worry, you can also put swap on the ext4 filesystem as well (with a neglible performance hit).</p>
+
+<p>After I have set up the partitions, it’s a good idea to set the Mirror.</p>
+
+<p>A mirror is the location that it downloads the files from. You can leave it as the default, but if you want to have the best response, you want to select the closest geographic mirror, considering bandwidth.</p>
+
+<p>At Clarkson University, we have a student-operated <a href="http://mirror.clarkson.edu">mirror</a> on campus, which has a very fast connection (10G backbone on campus).</p>
+
+<p>The Mirror URL is as follows to use in the dialog that appears when you select the Mirror for Fedora 26:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ruby"><span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/mirror.clarkson.edu/fedora</span><span class="hljs-regexp">/linux/releases</span><span class="hljs-regexp">/26/</span><span class="hljs-constant">Everything</span>/x86_64/os/</code></pre>
+
+<p>Once you enter that, click Done. It will take a moment, as it gathers all of the package information.</p>
+
+<p>Next, select the software configuration menu. I selected Server on the left side, and then I selected C/C++ libraries, network utilities, RPM build tools, and other useful tools of which I cannot recall. <strong>(Note to self - update this)</strong></p>
+
+<p>Once you do that, go back to the main menu (click done) click Begin Install, and then the magic begins.</p>
+
+<p>It will then prompt you for the root password, and a username and password. You will want to make the user administrator. (This means they are added to the wheel group and can use <code>sudo</code>, which is super important later, but so long as you rembmer the root password, you can get anywhere)</p>
+
+<p>After that, you wait for about 30+ minutes as it downloads and installs the packages. The time it takes depends on your disk and network speed for the most part, but a good CPU helps a lot as well.</p>
+
+
+
+<h3 id="first-boot-configuration">First Boot configuration</h3>
+
+<p>First comes first, we need to configure the system.</p>
+
+<p>If you haven’t already gathered an IP, you will need to get one. Usually, DHCP works out of the box if your network hardware is supported.</p>
+
+<p>Once you know you have a connection, continue.</p>
+
+<p>Run all of the below with the root user (or use <code>sudo -i</code> on the user account)</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs "><span class="hljs-comment"># update the system (this is mandatory or you will hate yourself later)</span>
+dnf update
+
+<span class="hljs-comment"># say yes to all of the prompts (press y and enter)</span>
+
+<span class="hljs-comment"># install Vim (a text editor), htop (a process monitor), and iperf (a network bandwidth tester)</span>
+dnf install -y vim htop iperf
+
+<span class="hljs-comment"># I tend to disable NetworkManager. It gets in the way too much.</span>
+systemctl disable NetworkManager
+systemctl stop NetworkManager
+
+<span class="hljs-comment"># Set the hostname. Delete whatever is there, and then add a hostname which does not start with a number and contains only alphanumeric characters or dashes. No whitespace</span>
+vim /etc/hostname
+
+<span class="hljs-comment"># Reboot to allow changes to occur to the kernel and other hardware that was just updated above</span>
+reboot</code></pre>
+
+<p>On reboot:</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs "><span class="hljs-comment"># When you reboot, there will not be an IP address. Get one via DHCP</span>
+<span class="hljs-comment"># First, we need to determine which ethernet adapter is connected to the internet.</span>
+ip a
+
+<span class="hljs-comment"># Look at the output of this command. lo is always connected, but generally en(p)#(s)#(f)# will be ethernet (where # is generally a number)</span>
+<span class="hljs-comment"># Generally, the first one below lo is what you want. On my system, it's ens2f0</span>
+<span class="hljs-comment"># It will say something like "up" or "lower up" often and will not say "no carrier"</span>
+
+<span class="hljs-comment"># If it says down, you may just need to poke it with "ip l set ens2f0 up", if it's still down, that is not the correct interface, and it's not connected</span>
+
+<span class="hljs-comment"># run dhclient on the connected interface to get an IP address</span>
+dhclient ens2f0
+
+<span class="hljs-comment"># where ens2f0 is replaced by the interface that is connected.</span>
+
+<span class="hljs-comment"># check to see if we have an IP address</span>
+ip a l dev ens2f0
+
+<span class="hljs-comment"># Look for an inet line. The thing directly after inet will be your IP address.</span>
+
+<span class="hljs-comment"># ex: inet 10.0.3.4/24 ...</span>
+
+<span class="hljs-comment"># If you have an IP address, you're good to go!</span></code></pre>
+
+
+
+<h3 id="installing-the-ib-drivers">Installing the IB drivers</h3>
+
+<p>In general, our hopes are to use OEFD for drivers and such.</p>
+
+<p>We still need to nab some dependencies though.</p>
+
+
+
+<h4 id="dependencies">Dependencies</h4>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs "><span class="hljs-comment"># Install dependencies for IB</span>
+dnf install -y opensm rdma opensm-libs libibumad libibverbs libibverbs-devel glib2-devel  libibumad-devel opensm-devel libibmad tk libibmad-devel tk-devel libibcommon libvma librdmacm openssl-devel ibutils infiniband-diags
+
+<span class="hljs-comment"># note, I am adding some of these after the fact, they may not be able to be installed yet. Install them as you can otherwise</span>
+
+<span class="hljs-comment"># 7z, a file decompression utility (because I like it, tar and unzip are also good)</span>
+dnf install -y p7zip p7zip-plugins
+
+<span class="hljs-comment"># If you're using a GUI, GUI for 7z: (commented to prevent mistakes such as installing Xorg)</span>
+<span class="hljs-comment">#dnf install -y p7zip-gui</span>
+</code></pre>
+
+<p>We need to fetch the drivers from OFED’s page as well.</p>
+
+
+
+<h4 id="custom-drivers">Custom Drivers</h4>
+
+<p>Go <a href="http://downloads.openfabrics.org/OFED/ofed-4.8-1/">here</a> and then get the latest version. (Note, if a newer version has come out of 4.8.1, go up a folder and then get the newest version that is not daily AND is a greater number than your kernel version, found from running <code>uname -a</code> and reading the third field.)</p>
+
+
+
+<pre class="prettyprint"><code class="language-bash hljs "><span class="hljs-comment"># Download the RPM sources</span>
+wget http://downloads.openfabrics.org/OFED/ofed-<span class="hljs-number">4.8</span>-<span class="hljs-number">1</span>/OFED-<span class="hljs-number">4.8</span>-<span class="hljs-number">1</span>-rc2.tgz -O ofed.tgz
+
+<span class="hljs-comment"># Extract the files</span>
+<span class="hljs-number">7</span>z x ofed.tgz
+tar -xvf ofed.tar
+
+<span class="hljs-comment"># Optionally, remove the archives</span>
+rm ofed.t*
+
+<span class="hljs-comment"># cd into the new folder.</span>
+<span class="hljs-built_in">cd</span> ofed..somepath../SRPMS
+
+<span class="hljs-comment"># Create the sources for installing from.</span>
+rpm -ihv *.rpm
+
+<span class="hljs-comment"># move to build directory</span>
+<span class="hljs-built_in">cd</span> ~/rpmbuild/SPECS
+
+<span class="hljs-comment"># Run ls here. You should find a bunch of .spec files. If not, something is wrong.</span>
+ls
+
+<span class="hljs-comment"># This next stuff will take much longer than everything else, since it's compiling all of the packages from source.</span>
+
+<span class="hljs-comment"># Install the necessary requirements (in this order)</span>
+rpmbuild -ba ~/rpmbuild/SPECS/libfabric.spec
+rpmbuild -ba ~/rpmbuild/SPECS/libibscif.spec
+rpmbuild -ba ~/rpmbuild/SPECS/infiniband-diags.spec
+rpmbuild -ba ~/rpmbuild/SPECS/opensm.spec
+rpmbuild -ba ~/rpmbuild/SPECS/ibpd.spec
+rpmbuild -ba ~/rpmbuild/SPECS/dapl.spec
+
+<span class="hljs-comment"># Throw a reboot in here somewhere...</span>
+</code></pre>
+
+
+
+<h3 id="connectiong-ipoib">Connectiong IPoIB</h3>
+
+<p>First, make sure that your connection is established with <code>ibstat</code>.</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ">ibstat</code></pre>
+
+<p>The output will spit out a bunch of information about the link, but the two things we care about are the <code>State</code> and <code>Physical State</code> lines under the port definition.</p>
+
+<p>If the link state is <code>Active</code>, then you are ready to go onto the next step.</p>
+
+<p>If the link state is <code>Down</code> and the physical state is <code>Polling</code>, then you need to start <code>opensm</code> (the OPEN Subnet Manager) on the master server.</p>
+
+<p>If you get something else and the link state is down, then you need to check the physical connections.</p>
+
+
+
+<h4 id="example-output">Example Output</h4>
+
+<p>Here’s an example output of a happy InfiniBand link: (this is from the internet)</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver"><span class="hljs-comment"># ibstat</span>
+ CA <span class="hljs-string">'mlx4_0'</span>
+       CA type: MT26428
+       Number <span class="hljs-operator">of</span> ports: <span class="hljs-number">1</span>
+       Firmware <span class="hljs-built_in">version</span>: <span class="hljs-number">2.9</span><span class="hljs-number">.1000</span>
+       Hardware <span class="hljs-built_in">version</span>: b0
+       Node GUID: <span class="hljs-number">0x0002c903004af586</span>
+       System image GUID: <span class="hljs-number">0x0002c903004af589</span>
+       Port <span class="hljs-number">1</span>:
+               State: Active
+               Physical state: LinkUp
+               Rate: <span class="hljs-number">40</span>
+               Base lid: <span class="hljs-number">250</span>
+               LMC: <span class="hljs-number">0</span>
+               SM lid: <span class="hljs-number">250</span>
+               Capability mask: <span class="hljs-number">0x0251086a</span>
+               Port GUID: <span class="hljs-number">0x0002c903004af587</span>
+               Link layer: InfiniBand</code></pre>
+
+
+
+<h3 id="establish-ip-link">Establish IP link</h3>
+
+<p>Now that we have established the physical layer, we need to establish IP addresses. Potentially, you could have a router or DHCP server later which can do this automatically, but this assumes such an action has not been carried out.</p>
+
+<p><strong>NOTE</strong> - This is not presistent over reboots!</p>
+
+
+
+<h4 id="find-the-link">Find the link</h4>
+
+<p>From the output of the below program, determine the interface name for the Infiniband network. It should be <code>ib0</code> in most configurations.</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ">ip l</code></pre>
+
+
+
+<h4 id="set-the-link-to-enabled">Set the link to enabled</h4>
+
+<p>Set the interface to the <code>Up</code> state. This permits IP traffic to traverse the network.</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash">ip l <span class="hljs-keyword">set</span> dev ib0 up</code></pre>
+
+
+
+<h4 id="add-an-ip-address">Add an IP address</h4>
+
+<p>Set the IP address of the network. In this case, I am setting the IP to <code>10.0.3.2\24</code>, which is an IP of <code>10.0.3.2</code> with a <a href="https://doc.m0n0.ch/quickstartpc/intro-CIDR.html">CDIR</a> subnet mask equivelant to the netmask <code>255.255.255.0</code>. You also specify that you are adding the IP address, and that you want it on device <code>ib0</code>.</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">ip <span class="hljs-operator">a</span> <span class="hljs-built_in">add</span> <span class="hljs-number">10.0</span><span class="hljs-number">.3</span><span class="hljs-number">.2</span>/<span class="hljs-number">24</span> dev ib0</code></pre>
+
+
+
+<h4 id="verify-the-ip-address-and-routes">Verify the IP address and routes</h4>
+
+<p>Now, verify that you have correctly established the IP address.</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">ip <span class="hljs-operator">a</span></code></pre>
+
+<p>It should list the IPv4 address that you now have. The line you care about is the <code>inet</code> line. The first quad octet (seperated by dots) is the IP address, followed by the CDIR notation for the subnet (in this case, <code>\24</code>).</p>
+
+<p>Example: (this is my WiFi interface on my laptop)</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver"><span class="hljs-number">3</span>: wlp1s0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="hljs-number">1500</span> qdisc mq state UP group default qlen <span class="hljs-number">1000</span>
+    link/ether f4:<span class="hljs-number">96</span>:<span class="hljs-number">34</span>:eb:<span class="hljs-number">48</span>:<span class="hljs-number">26</span> brd ff:ff:ff:ff:ff:ff
+    inet <span class="hljs-number">192.168</span><span class="hljs-number">.8</span><span class="hljs-number">.183</span>/<span class="hljs-number">24</span> brd <span class="hljs-number">192.168</span><span class="hljs-number">.8</span><span class="hljs-number">.255</span> scope <span class="hljs-built_in">global</span> dynamic wlp1s0
+       valid_lft <span class="hljs-number">41925</span><span class="hljs-built_in">sec</span> preferred_lft <span class="hljs-number">41925</span><span class="hljs-built_in">sec</span>
+    inet6 fde5:<span class="hljs-number">8</span>f5b:<span class="hljs-number">570</span><span class="hljs-operator">a</span>::<span class="hljs-number">569</span>/<span class="hljs-number">128</span> scope <span class="hljs-built_in">global</span>
+       valid_lft <span class="hljs-keyword">forever</span> preferred_lft <span class="hljs-keyword">forever</span>
+    inet6 fde5:<span class="hljs-number">8</span>f5b:<span class="hljs-number">570</span><span class="hljs-operator">a</span>:<span class="hljs-number">0</span>:b7b7:<span class="hljs-number">6882</span>:<span class="hljs-number">475</span>c:<span class="hljs-number">4</span>f80/<span class="hljs-number">64</span> scope <span class="hljs-built_in">global</span> noprefixroute
+       valid_lft <span class="hljs-keyword">forever</span> preferred_lft <span class="hljs-keyword">forever</span>
+    inet6 fe80::<span class="hljs-number">6</span>a5b:a280:<span class="hljs-number">4863</span>:<span class="hljs-number">8348</span>/<span class="hljs-number">64</span> scope link
+       valid_lft <span class="hljs-keyword">forever</span> preferred_lft <span class="hljs-keyword">forever</span></code></pre>
+
+<p>You may also want to check the routes:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ">ip r</code></pre>
+
+<p>This will show the default route for each subnet and to which interface it should go to. Generally, when you set yourself an IP, it should be on a seperate subnet from other IP addresses that are available on other interfaces such as other subnets.</p>
+
+<p>In general, for most cases, the <code>10.0.0.0/8</code> is a perfectly good place to fiddle with this, and if you have a <code>/24</code> in this space, there is plenty of octets worth of space to fiddle (in fact, over 65k unique <code>/24</code> subnets within a <code>/8</code>).</p>
+
+<p>Example: (this is also my laptop)</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs d"><span class="hljs-keyword">default</span> via <span class="hljs-number">192.168</span>.8.1 dev wlp1s0 proto <span class="hljs-keyword">static</span> metric <span class="hljs-number">600</span>
+<span class="hljs-number">192.168</span>.8.0/<span class="hljs-number">24</span> dev wlp1s0 proto kernel <span class="hljs-keyword">scope</span> link src <span class="hljs-number">192.168</span>.8.183 metric <span class="hljs-number">600</span></code></pre>
+
+
+
+<h4 id="addendum-get-a-dhcp-leased-ip-address">Addendum: Get a DHCP leased IP address</h4>
+
+<p>This is particularly useful if you want to recieve an IP address for connecting over ethernet to the normal network for SSH access to the servers. If you configure a DHCP server on a server, you could also use this command to recieve an IP address.</p>
+
+<p>This command below specifies to run the dhclient program (which gets an IP over DHCP) from the <code>ens2f0</code> interface. Look at <code>ip l</code>’s output to determine the interface you need. Often, they are formatted en(s#)(p#)(f#) to be as unique as possible against other interfaces on the system.</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ">dhclient ens2f0</code></pre>
+
+<p>In a moment, if you did it to the correct device, you will have an IP address, which will be shown by the output of <code>ip a</code>.</p>
+
+
+
+<h3 id="testing-the-capabiliites-of-ipoib">Testing the capabiliites of IPoIB</h3>
+
+<p>To test the speed of the IB network from the IP layer, we will be using the program <code>iperf</code>.</p>
+
+<p>If you didn’t install it already, do that now.</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs cmake">dnf <span class="hljs-keyword">install</span> -y iperf</code></pre>
+
+<p>You will need this program on both the server and the client.</p>
+
+<p>To run the server side program, enter the below:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash">iperf <span class="hljs-operator">-s</span></code></pre>
+
+<p>To run the client side program (the server must be running, and only one client can connect at a time):</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs nginx"><span class="hljs-title">iperf</span> -c <span class="hljs-number">10.0.3.2</span></code></pre>
+
+<p>where <code>10.0.3.2</code> is replaced with the IP address where the iperf server is running.</p>
+
+<p>In a moment, you will see an output, which specifies the size of data that it moved in a specific amount of time, as well as the general link speed. Check the units to see which is which.</p>
+
+
+
+<h3 id="random-debugging-tidbits">Random Debugging Tidbits</h3>
+
+<p>If you forgot to add a user to administrator, you can do it later with the following command.</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash">gpasswd <span class="hljs-operator">-a</span> &lt;username&gt; wheel</code></pre>
+
+<p>Printing the users (this shows their name, uid, shell, etc)</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ">getent passwd</code></pre>
+
+<p>Printing the groups (this shows the groups, gid, and their memeber users)</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs cs">getent <span class="hljs-keyword">group</span></code></pre></div></body>
+</html>
