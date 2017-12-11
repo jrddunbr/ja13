@@ -45,8 +45,9 @@ a, a.visited {
 }
 
 #important-message { position: absolute;
-     left: 600px;
-     top: 600px;
+  left: 600px;
+  top: 600px;
+  z-index: 1;
 }
 
 /* Thank you https://codepen.io/NickyCDK/pen/AIonk */
@@ -65,6 +66,7 @@ a, a.visited {
 	-moz-animation: snow 10s linear infinite;
 	-ms-animation: snow 10s linear infinite;
 	animation: snow 10s linear infinite;
+  z-index: -1;
 }
 @keyframes snow {
   0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
