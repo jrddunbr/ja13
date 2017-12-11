@@ -11,7 +11,9 @@
   /* Thanks! http://jsfiddle.net/Xw29r/ */
 
   $(document).ready(function(){
-    animateDiv();
+    if $(window).height() > 800 && $(window).width() > 600 {
+      animateDiv();
+    }
   });
 
   function makeNewPosition(){
@@ -89,7 +91,7 @@
           acces a year after I have graduated because they do that... -->
 
     <!-- begin message about FCC bullshit -->
-    
+
     <div id="important-message"><!-- this will only be here for a few days, but I value it, net neutrality is super important no matter how you spin it -->
       <a href="https://www.battleforthenet.com/#bftn-action-form"><img src="https://battleforthenet.com/images/banner/728x80.png" alt="We are just weeks away from an FCC vote tokill net neutrality. Contac Congress!" width="728" height="80"></a>
     </div><!-- There's plenty of ways that the FCC is about to screw over consumers. And don't try and tell me that you'll use a VPN or other tool to get around it because they can block that. They (ISP's) will be able to manipulate your inbound and outbound data /however/ they would like. Effectively, our governmnet feels that a /privatized/ version of the "Great Firewall" is a great idea :P, except instead this time it's a paywall... I really disapprove with our (the USA's) government sometimes. -->
