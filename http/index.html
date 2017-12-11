@@ -13,6 +13,8 @@
   $(document).ready(function(){
     if ($(window).width() > 739) {
       animateDiv();
+    }else{
+      noDiv();
     }
   });
 
@@ -35,6 +37,10 @@
     $('#important-message').animate({ top: newq[0], left: newq[1] }, function(){ animateDiv(); }).delay(2000);
     //someone thought it was cool to just keep this constantly moving.
   };
+
+  function noDiv() {
+    $('#important-message').remove()
+  }
   </script>
 </head>
 <body>
