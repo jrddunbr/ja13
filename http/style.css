@@ -43,3 +43,8 @@ a, a.visited {
 .indent {
   margin-left: 20px;
 }
+
+#important-message { position: absolute;
+     left: 600px;
+     top: 600px;
+}

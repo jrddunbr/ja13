@@ -5,6 +5,35 @@
   </title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <meta name=viewport content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+
+  /* Thanks! http://jsfiddle.net/Xw29r/ */
+
+  $(document).ready(function(){
+    animateDiv();
+  });
+
+  function makeNewPosition(){
+    // Get viewport dimensions (remove the dimension of the image)
+    var h = $(window).height() - 80;
+    var w = $(window).width() - 728;
+
+    //move to a new place
+    var nh = Math.floor(Math.random() *  h/2+h);
+    // on a large screen, h/2 + h is generally out of the way enough. I *could* obstruct content by setting this to just h, but meh.
+    var nw = Math.floor(Math.random() * w);
+
+    //doot
+    return [nh,nw];
+  }
+
+  function animateDiv(){
+    var newq = makeNewPosition();
+    $('#important-message').animate({ top: newq[0], left: newq[1] }, function(){ animateDiv(); }).delay(2000);
+    //someone thought it was cool to just keep this constantly moving.
+  };
+  </script>
 </head>
 <body>
   <div class="header">
@@ -58,6 +87,14 @@
     </p>
     <!-- My Gmail is preferable, at some point Clarkson will revoke my email
           acces a year after I have graduated because they do that... -->
+
+    <!-- begin message about FCC bullshit -->
+    
+    <div id="important-message"><!-- this will only be here for a few days, but I value it, net neutrality is super important no matter how you spin it -->
+      <a href="https://www.battleforthenet.com/#bftn-action-form"><img src="https://battleforthenet.com/images/banner/728x80.png" alt="We are just weeks away from an FCC vote tokill net neutrality. Contac Congress!" width="728" height="80"></a>
+    </div><!-- There's plenty of ways that the FCC is about to screw over consumers. And don't try and tell me that you'll use a VPN or other tool to get around it because they can block that. They (ISP's) will be able to manipulate your inbound and outbound data /however/ they would like. Effectively, our governmnet feels that a /privatized/ version of the "Great Firewall" is a great idea :P, except instead this time it's a paywall... I really disapprove with our (the USA's) government sometimes. -->
+
+    <!-- end message about FCC bullshit -->
   </div>
 </body>
 </html>
