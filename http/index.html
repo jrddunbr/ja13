@@ -5,7 +5,7 @@
   </title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <meta name=viewport content="width=device-width, initial-scale=1">
-  <meta charset="UTF-8"> 
+  <meta charset="UTF-8">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
 
@@ -42,6 +42,14 @@
   function noDiv() {
     $('#important-message').remove()
   }
+
+  function snow() {
+    console.log("starting snow")
+    if (document.getElementById("sno")) {
+        document.getElementById("sno").setAttribute("id", "snow");
+    }
+  }
+
   </script>
 </head>
 <body>
@@ -98,6 +106,14 @@
           acces a year after I have graduated because they do that... -->
 
     <!-- begin message about FCC bullshit -->
+
+    <h3>Relevant Recent Stuff</h3>
+
+    <p class="indent"><span onmouseover="snow();">Happy Holidays!</span></p>
+
+    <div id="sno"></div>
+
+    <p class="indent">Click <a href="fcc.html">here</a> for my opinion on the new FCC bill</p>
 
     <div id="important-message"><!-- this will only be here for a few days, but I value it, net neutrality is super important no matter how you spin it -->
       <a href="https://www.battleforthenet.com/#bftn-action-form"><img src="https://battleforthenet.com/images/banner/728x80.png" alt="We are just weeks away from an FCC vote tokill net neutrality. Contac Congress!" width="728" height="80"></a>
