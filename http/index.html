@@ -6,51 +6,6 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   <meta name=viewport content="width=device-width, initial-scale=1">
   <meta charset="UTF-8">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script>
-
-  /* Thanks! http://jsfiddle.net/Xw29r/ */
-
-  $(document).ready(function(){
-    if ($(window).width() > 739) {
-      animateDiv();
-    }else{
-      noDiv();
-    }
-  });
-
-  function makeNewPosition(){
-    // Get viewport dimensions (remove the dimension of the image)
-    var h = $(window).height() - 80;
-    var w = $(window).width() - 728;
-
-    //move to a new place
-    var nh = Math.floor(Math.random() *  h/2+h);
-    // on a large screen, h/2 + h is generally out of the way enough. I *could* obstruct content by setting this to just h, but meh.
-    var nw = Math.floor(Math.random() * w);
-
-    //doot
-    return [nh,nw];
-  }
-
-  function animateDiv(){
-    var newq = makeNewPosition();
-    $('#important-message').animate({ top: newq[0], left: newq[1] }, function(){ animateDiv(); }).delay(2000);
-    //someone thought it was cool to just keep this constantly moving.
-  };
-
-  function noDiv() {
-    $('#important-message').remove()
-  }
-
-  function snow() {
-    console.log("starting snow")
-    if (document.getElementById("sno")) {
-        document.getElementById("sno").setAttribute("id", "snow");
-    }
-  }
-
-  </script>
 </head>
 <body>
   <div class="header">
@@ -75,8 +30,10 @@
     <br/>
     <h3>About me</h3>
     <p class="indent">
-      I'm a Computer Science B.S. junior at
-      <a href="http://internal.clarkson.edu">Clarkson University</a><!-- screw clarkson.edu, that website is a marketing powered dumpster fire; useful to almost nobody at the university -->, graduating in the spring of 2019.</p>
+      I'm a junior in Computer Science B.S. at
+      <a href="http://internal.clarkson.edu">Clarkson University</a>,
+      <!-- screw clarkson.edu, that website is a marketing powered dumpster fire; useful to almost nobody at the university -->
+      graduating in the spring of 2019.</p>
     <p class="indent">
      In my spare time, I work on open source projects. I'm one of two system administrators
      and active member of the <a href="htpp://cosi.clarkson.edu">Clarkson Open Source Institute</a> (COSI). Go to my
@@ -89,9 +46,7 @@
       <!-- I am rather experienced in IT stuff, servers, hardware, networking,
             and some backends such as Flask, LAMP, etc. -->
       <!-- I use Arch Linux as my daily operating system, but am experienced
-            day-to-day with Ubuntu, Debian, and have touched openSuSE, CENT, etc -->
-      <!-- I am very familiar with many industry standard security practices,
-            and can be known to actually compile security updates into my system -->
+            day-to-day with Ubuntu, Debian, and have worked with openSuSE, CENT, etc -->
       <!-- By the way, -->
       <!-- Stop reading this, and start reading my resume:
                   http://resume.ja13.org/resume.pdf -->
@@ -104,24 +59,6 @@
     </p>
     <!-- My Gmail is preferable, at some point Clarkson will revoke my email
           acces a year after I have graduated because they do that... -->
-
-
-
-    <h3>Relevant Recent Stuff</h3>
-
-    <p class="indent"><span onmouseover="snow();">Happy Holidays!</span></p>
-
-    <div id="sno"></div>
-
-    <!-- begin message about FCC bullshit -->
-
-    <p class="indent">Click <a href="fcc.html">here</a> for my opinion on the new FCC bill</p>
-
-    <div id="important-message"><!-- this will only be here for a few days, but I value it, net neutrality is super important no matter how you spin it -->
-      <a href="https://www.battleforthenet.com/#bftn-action-form"><img src="https://battleforthenet.com/images/banner/728x80.png" alt="We are just weeks away from an FCC vote tokill net neutrality. Contac Congress!" width="728" height="80"></a>
-    </div><!-- There's plenty of ways that the FCC is about to screw over consumers. And don't try and tell me that you'll use a VPN or other tool to get around it because they can block that. They (ISP's) will be able to manipulate your inbound and outbound data /however/ they would like. Effectively, our governmnet feels that a /privatized/ version of the "Great Firewall" is a great idea :P, except instead this time it's a paywall... I really disapprove with our (the USA's) government sometimes. -->
-
-    <!-- end message about FCC bullshit -->
   </div>
 </body>
 </html>
