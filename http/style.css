@@ -8,27 +8,20 @@ html {
 
 h1 {
   font-variant: small-caps;
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+h3 {
+  font-size: 24px;
 }
 
 .header {
   text-align: center;
-}
-
-#nav {
-  margin-left: 26%;
-}
-#nav > li {
-  display: inline-block;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 5px;
-  font-size: 20px;
-  font-variant: small-caps;
-}
-
-#nav > li > a {
-  text-decoration: none;
-  font-weight: bold;
+  font-size: 24px;
 }
 
 a, a.visited {
@@ -36,55 +29,35 @@ a, a.visited {
 }
 
 .content {
-  margin-left: 25%;
-  margin-right: 25%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
 }
 
 .indent {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
-#important-message { position: absolute;
-  left: 600px;
-  top: 600px;
-  z-index: 1;
+@media screen and (min-width: 600px) {
+  .content {
+    width: 75%;
+  }
+  .indent {
+    margin-left: 15px;
+  }
 }
 
-/* Thank you https://codepen.io/NickyCDK/pen/AIonk */
+@media screen and (min-width: 1000px) {
+  .content {
+    width: 60%;
+  }
+  .indent {
+    margin-left: 20px;
+  }
+}
 
-#snow{
-	background: none;
-	font-family: Androgyne;
-	background-image: url('http://www.wearewebstars.dk/codepen/img/s1.png'), url('http://www.wearewebstars.dk/codepen/img//s2.png'), url('http://www.wearewebstars.dk/codepen/img//s3.png');
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index:1;
-	-webkit-animation: snow 10s linear infinite;
-	-moz-animation: snow 10s linear infinite;
-	-ms-animation: snow 10s linear infinite;
-	animation: snow 10s linear infinite;
-  z-index: -1;
-}
-@keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
-}
-@-moz-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
-}
-@-webkit-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
-}
-@-ms-keyframes snow {
-  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
-  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
-  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+@media screen and (min-width: 1600px) {
+  .content {
+    width: 50%;
+  }
 }
