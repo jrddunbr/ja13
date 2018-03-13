@@ -1,2 +1,2 @@
-http://ja13.org
-http://resume.ja13.org
+https://ja13.org
+https://resume.ja13.org
