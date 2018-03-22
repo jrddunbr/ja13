@@ -1,5 +1,5 @@
 html {
-  background: url("back.png") #222 no-repeat center center fixed;
+  background: url("https://ja13.org/back.png") #222 no-repeat center center fixed;
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
@@ -16,25 +16,25 @@ a, a.visited {
 }
 
 @media screen and (min-width: 600px) {
-  html {
+  .content {
     width: 75%;
   }
-  html {
+  .content {
     margin-left: 15px;
   }
 }
 
 @media screen and (min-width: 1000px) {
-  html {
+  .content {
     width: 60%;
   }
-  html {
+  .content {
     margin-left: 20px;
   }
 }
 
 @media screen and (min-width: 1600px) {
-  html {
+  .content {
     width: 50%;
   }
 }
