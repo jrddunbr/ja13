@@ -3,25 +3,28 @@ html {
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
-  font-family: "Lucida Console", Monaco, monospace;
+  /*font-family: "Lucida Console", Monaco, monospace;*/
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 24px;
+
 }
 
 h1 {
   font-variant: small-caps;
-  font-size: 50px;
+  font-size: 60px;
 }
 
 h2 {
-  font-size: 32px;
+  font-size: 48px;
 }
 
 h3 {
-  font-size: 24px;
+  font-size: 32px;
 }
 
 .header {
   text-align: center;
-  font-size: 24px;
+  font-size: 32px;
 }
 
 a, a.visited {
