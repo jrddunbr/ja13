@@ -1,12 +1,6 @@
 html {
-  background: url("back.png") #222 no-repeat center center fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: white;
-  /*font-family: "Lucida Console", Monaco, monospace;*/
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 24px;
-
 }
 
 h1 {
@@ -28,7 +22,7 @@ h3 {
 }
 
 a, a.visited {
-  color: #8fefff;
+  color: #0044AA;
 }
 
 .content {
@@ -39,6 +33,21 @@ a, a.visited {
 
 .indent {
   margin-left: 10px;
+}
+
+li {
+  padding: 10px;
+}
+
+ul#links li {
+  display: inline;
+  font-variant: small-caps;
+}
+
+.code {
+  font-family: 'IBM Plex Sans Mono', sans-serif;
+  font-size: 20px;
+  text-decoration: none;
 }
 
 @media screen and (min-width: 600px) {

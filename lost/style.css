@@ -1,9 +1,6 @@
 html {
-  background: url("https://ja13.org/back.png") #222 no-repeat center center fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: white;
-  font-family: "Lucida Console", Monaco, monospace;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 24px;
 }
 
 h1 {
@@ -12,14 +9,20 @@ h1 {
 }
 
 a, a.visited {
-  color: #8fefff;
+  color: #0044AA;
+}
+
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
 }
 
 @media screen and (min-width: 600px) {
   .content {
     width: 75%;
   }
-  .content {
+  .indent {
     margin-left: 15px;
   }
 }
@@ -28,7 +31,7 @@ a, a.visited {
   .content {
     width: 60%;
   }
-  .content {
+  .indent {
     margin-left: 20px;
   }
 }

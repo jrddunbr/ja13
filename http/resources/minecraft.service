@@ -6,7 +6,7 @@ Description=<server name>
 WorkingDirectory=/servers/<server name>
 
 # This is the username we would like to run as
-User=gmx
+User=<username>
 
 # These are the commands to sart the server
 ExecStart=/usr/bin/screen -DmS <server name> /usr/bin/java -jar -Xmx2G -Xmn1G <filename>.jar
