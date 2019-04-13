@@ -18,7 +18,7 @@ a, a.visited {
   width: 95%;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 650px) {
   .content {
     width: 75%;
   }
@@ -29,15 +29,9 @@ a, a.visited {
 
 @media screen and (min-width: 1000px) {
   .content {
-    width: 60%;
+    width: 650px;
   }
   .indent {
     margin-left: 20px;
-  }
-}
-
-@media screen and (min-width: 1600px) {
-  .content {
-    width: 50%;
   }
 }
