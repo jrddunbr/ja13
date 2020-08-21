@@ -2,5 +2,3 @@ https://ja13.org
 https://ja13.org/admin
 https://ja13.org/rulebook
 https://ja13.org/projects
-https://ll.ja13.org
-https://eln2.org
