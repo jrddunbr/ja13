@@ -2,4 +2,4 @@
 
 This is my website. It serves a few static pages.
 
-https://ja13.org
+https://www.ja13.org

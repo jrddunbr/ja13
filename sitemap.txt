@@ -1,4 +1,3 @@
-https://ja13.org
-https://ja13.org/admin
-https://ja13.org/rulebook
-https://ja13.org/projects
+https://www.ja13.org
+https://www.ja13.org/admin
+https://www.ja13.org/rulebook
